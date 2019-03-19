@@ -18,7 +18,7 @@ defmodule Tasktrack3Web.TaskController do
     case Tasks.create_task(task_params) do
       {:ok, task} ->
         conn
-        |> put_flash(:info, "Task created successfully.")
+        |> put_flash(:info, "Task created successfully")
         |> redirect(to: Routes.task_path(conn, :show, task))
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -43,7 +43,7 @@ defmodule Tasktrack3Web.TaskController do
     case Tasks.update_task(task, task_params) do
       {:ok, task} ->
         conn
-        |> put_flash(:info, "Task updated successfully.")
+        |> put_flash(:info, "Task updated successfully")
         |> redirect(to: Routes.task_path(conn, :show, task))
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -56,7 +56,7 @@ defmodule Tasktrack3Web.TaskController do
     {:ok, _task} = Tasks.delete_task(task)
 
     conn
-    |> put_flash(:info, "Task deleted successfully.")
+    |> put_flash(:info, "Task deleted successfully")
     |> redirect(to: Routes.task_path(conn, :index))
   end
 end

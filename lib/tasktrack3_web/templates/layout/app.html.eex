@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="<%= Routes.static_url(@conn, "/css/app.css") %>"/>
   </head>
   <body>
+
+    <%# NAVBAR / LOGIN %>
     <div class="container">
       <nav class="navbar navbar-expand-sm navbar-light bg-white">
         <div class="col-4">
@@ -42,7 +44,8 @@
           <% end %>
         </div>
       </nav>
-
+      
+      <%# FLASHES %>
       <div class="row">
         <div class="col-12">
           <%= if get_flash(@conn, :info) do %>
@@ -54,6 +57,7 @@
         </div>
       </div>
 
+      <%# PAGE CONTENT %>
       <div class="row">
         <div class="col-8">
           <%= render @view_module, @view_template, assigns %>

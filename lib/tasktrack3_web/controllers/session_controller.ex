@@ -10,7 +10,7 @@ defmodule Tasktrack3Web.SessionController do
         |> redirect(to: Routes.page_path(conn, :index))
       else
         conn
-        |> put_flash(:error, "Login failed.")
+        |> put_flash(:error, "Login failed")
         |> redirect(to: Routes.page_path(conn, :index))
       end
     end
@@ -26,7 +26,7 @@ defmodule Tasktrack3Web.SessionController do
     def delete(conn, _params) do
       conn
       |> delete_session(:user_id)
-      |> put_flash(:info, "Logged out.")
+      |> put_flash(:info, "Logged out")
       |> redirect(to: Routes.page_path(conn, :index))
     end
   end
