@@ -1,0 +1,33 @@
+<h1>Show Task</h1>
+
+<ul>
+
+  <li>
+    <strong>Assignedto:</strong>
+    <%= @task.assignedto %>
+  </li>
+
+  <li>
+    <strong>Assignedby:</strong>
+    <%= @task.assignedby %>
+  </li>
+
+  <li>
+    <strong>Duration:</strong>
+    <%= @task.duration %>
+  </li>
+
+  <li>
+    <strong>Complete:</strong>
+    <%= @task.complete %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @task.description %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.task_path(@conn, :edit, @task) %></span>
+<span><%= link "Back", to: Routes.task_path(@conn, :index) %></span>

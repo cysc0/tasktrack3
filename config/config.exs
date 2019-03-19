@@ -1,30 +1,32 @@
 # This file is responsible for configuring your application
 # and its dependencies with the aid of the Mix.Config module.
+#
+# This configuration file is loaded before any dependency and
+# is restricted to this project.
 use Mix.Config
 
-# This configuration is loaded before any dependency and is restricted
-# to this project. If another project depends on this project, this
-# file won't be loaded nor affect the parent project. For this reason,
-# if you want to provide default values for your application for
-# third-party users, it should be done in your "mix.exs" file.
+# General application configuration
+config :tasktrack3,
+  ecto_repos: [Tasktrack3.Repo]
 
-# You can configure your application as:
-#
-#     config :tasktrack3, key: :value
-#
-# and access this configuration in your application as:
-#
-#     Application.get_env(:tasktrack3, :key)
-#
-# You can also configure a third-party app:
-#
-#     config :logger, level: :info
-#
+# Configures the endpoint
+config :tasktrack3, Tasktrack3Web.Endpoint,
+  url: [host: "localhost"],
+  secret_key_base: "ec7ahe0xeipah9As0vahrieWaoh4shah3xohW7duoxoh2oomahshieshahjeisha",
+  render_errors: [view: Tasktrack3Web.ErrorView, accepts: ~w(html json)],
+  pubsub: [name: Tasktrack3.PubSub,
+           adapter: Phoenix.PubSub.PG2]
 
-# It is also possible to import configuration files, relative to this
-# directory. For example, you can emulate configuration per environment
-# by uncommenting the line below and defining dev.exs, test.exs and such.
-# Configuration from the imported file will override the ones defined
-# here (which is why it is important to import them last).
-#
-#     import_config "#{Mix.env()}.exs"
+# Configures Elixir's Logger
+config :logger, :console,
+  format: "$time $metadata[$level] $message\n",
+  metadata: [:request_id]
+
+# Use Jason for JSON parsing in Phoenix and Ecto
+config :phoenix, :json_library, Jason
+config :ecto, :json_library, Jason
+
+
+# Import environment specific config. This must remain at the bottom
+# of this file so it overrides the configuration defined above.
+import_config "#{Mix.env}.exs"

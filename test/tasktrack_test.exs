@@ -1,6 +1,6 @@
-defmodule Tasktrack3Test do
+defmodule TasktrackTest do
   use ExUnit.Case
-  doctest Tasktrack3
+  doctest Tasktrack
 
   test "greets the world" do
     assert Tasktrack3.hello() == :world
