@@ -22,4 +22,22 @@ be found at [https://hexdocs.pm/tasktrack](https://hexdocs.pm/tasktrack).
 
 # TODO:
 
-login is not SPA, is a re-render 
+requirements:
+user sign up
+logout
+task creation/edits
+  schema:
+    owner: user_id (reassignable)
+    status: boolean
+    description: string
+    title: string
+    time: int (0..15...)
+
+
+-----
+
+fixes/enhancements:
+
+figure out sessions, so that a page reload doesn't logout?
+REMOVE MANAGER STUFF, currently unused, but we don't need it
+all tasks view, my tasks view

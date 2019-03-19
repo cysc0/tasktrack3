@@ -69,7 +69,7 @@ function Header(props) {
   }
   else {
     session_info = <div className="my-2">
-      <p>Logged in as {session.user_id}</p>
+      <p>Hello, {session.user_email}</p>
     </div>
   }
 
