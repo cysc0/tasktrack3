@@ -90,6 +90,9 @@ class Root extends React.Component {
         <Route path="/" exact={true} render={() =>
           <SignupForm session={this.state.session} root={this}/>
         } />
+        <Route path="/users" exact={true} render={() =>
+          <Users session={this.state.session} root={this}/>
+        } />
       </div>
     </Router>;
   }
@@ -156,3 +159,23 @@ function SignupForm(props) {
             </div>
           </div>
 }
+
+//////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////// SIGNUP /////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+
+function Users(props) {
+  function getUsers() {
+    $.ajax("/api/v1/users", {
+      method: "get",
+      contentType: "application/json; charset=UTF-8",
+      success: (resp) => {
+        console.log(resp)
+      }
+    });
+  };
+
+  let userList = getUsers();
+  return <div>Test</div>
+}
+

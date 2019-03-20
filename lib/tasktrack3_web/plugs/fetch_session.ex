@@ -1,6 +1,6 @@
 defmodule Tasktrack3Web.Plugs.FetchSession do
   import Plug.Conn
-  
+
   def init(args), do: args
   
   def call(conn, _args) do
