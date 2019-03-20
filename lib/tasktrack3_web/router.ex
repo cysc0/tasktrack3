@@ -17,7 +17,7 @@ defmodule Tasktrack3Web.Router do
   scope "/", Tasktrack3Web do
     pipe_through :browser # Use the default browser stack
     
-    get "/", PageController, :index
+    get "/*path", PageController, :index
   end
   
   # Other scopes may use custom stacks.

@@ -41,3 +41,4 @@ fixes/enhancements:
 figure out sessions, so that a page reload doesn't logout?
 REMOVE MANAGER STUFF, currently unused, but we don't need it
 all tasks view, my tasks view
+redo the page structuring and redirecting, for when there's a session or not
