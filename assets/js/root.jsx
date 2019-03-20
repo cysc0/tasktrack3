@@ -16,13 +16,41 @@ class Root extends React.Component {
       login_form: {email: "", password: "", newUser: false},
       signup_form: {email: "", password: "", newUser: true},
       session: null,
-      users: [],
+      users: this.fetchUsers(),
+      tasks: this.fetchTasks()
     };
+  };
+
+  ////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////// STATIC REQUESTS ///////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////
+
+  fetchUsers() {
+    $.ajax("/api/v1/users", {
+      method: "get",
+      contentType: "application/json; charset=UTF-8",
+      success: (resp) => {
+        let state1 = _.assign({}, this.state, { users: resp.data });
+        this.setState(state1);
+      }
+    });
+  };
+
+  fetchTasks() {
+    $.ajax("/api/v1/tasks", {
+      method: "get",
+      contentType: "application/json; charset=UTF-8",
+      success: (resp) => {
+        let state1 = _.assign({}, this.state, { tasks: resp.data });
+        this.setState(state1);
+      }
+    });
   };
   
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////// USER SESSION /////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
+
   logout() {
     this.state.session = null;
     this.setState(this.state);
@@ -83,15 +111,17 @@ class Root extends React.Component {
   ////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////// RENDER ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
+
   render() {
     return <Router>
       <div>
         <Header session={this.state.session} root={this} />
+        <div className="row">&nbsp;</div>
         <Route path="/" exact={true} render={() =>
           <SignupForm session={this.state.session} root={this}/>
         } />
         <Route path="/users" exact={true} render={() =>
-          <Users session={this.state.session} root={this}/>
+          <Users users={this.state.users}/>
         } />
       </div>
     </Router>;
@@ -101,6 +131,7 @@ class Root extends React.Component {
 //////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////// HEADER /////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
+
 function Header(props) {
   // Header setup borrowed from Nat Tuck: https://github.com/NatTuck/husky_shop_spa
   let {root, session} = props;
@@ -117,7 +148,7 @@ function Header(props) {
   else {
     session_info = <div>
       <p>Hello, {session.user_email}</p>
-      <button className="btn btn-sm btn-secondary" onClick={() => root.logout()}>Logout</button>
+      <Link to="/" className="btn btn-sm btn-secondary" onClick={() => root.logout()}>Logout</Link>
     </div>
   }
 
@@ -127,9 +158,9 @@ function Header(props) {
     </div>
     <div className="col-4">
       <p>
-        <Link to={"/tasks"}>Tasks</Link>&nbsp;|&nbsp;
-        <Link to={"/users"}>Users</Link>&nbsp;|&nbsp;
-        <Link to={"/mytasks"}>My Tasks</Link>
+        <Link to={"/tasks"} onClick={(ev) => root.fetchTasks()}>Tasks</Link>&nbsp;|&nbsp;
+        <Link to={"/users"} onClick={(ev) => root.fetchUsers()}>Users</Link>&nbsp;|&nbsp;
+        <Link to={"/mytasks"} onClick={(ev) => root.fetchTasks()}>My Tasks</Link>
       </p>
     </div>
     <div className="col-4">
@@ -155,27 +186,39 @@ function SignupForm(props) {
                 onChange={(ev) => root.update_signup_form({password: ev.target.value})} />
             </div>
             <div className="card-footer text-muted">
-              <button className="btn btn-primary btn-block" onClick={() => root.signup()}>Go!</button>
+              <Link to={"/mytasks"} className="btn btn-primary btn-block" onClick={() => root.signup()}>Go!</Link>
             </div>
           </div>
 }
 
 //////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////// SIGNUP /////////////////////////////////////
+////////////////////////////////////// USER //////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 
 function Users(props) {
-  function getUsers() {
-    $.ajax("/api/v1/users", {
-      method: "get",
-      contentType: "application/json; charset=UTF-8",
-      success: (resp) => {
-        console.log(resp)
-      }
-    });
-  };
+  let rows = _.map(props.users, (user) => <User key={user.id} user={user} />);
+  return <div className="row">
+    <div className="col-12">
+      <table className="table table-striped table-bordered">
+        <thead className="thead thead-dark">
+          <tr>
+            <th>Email</th>
+            <th>Administrator</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows}
+        </tbody>
+      </table>
+    </div>
+  </div>;
+}
 
-  let userList = getUsers();
-  return <div>Test</div>
+function User(props) {
+  let {user} = props;
+  return <tr>
+    <td>{user.email}</td>
+    <td>{user.admin ? "👍" : "👎"}</td>
+  </tr>;
 }
 
