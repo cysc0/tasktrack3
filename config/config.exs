@@ -1,66 +1,40 @@
-# Import all plugins from `rel/plugins`
-# They can then be used by adding `plugin MyPlugin` to
-# either an environment, or release definition, where
-# `MyPlugin` is the name of the plugin module.
-~w(rel plugins *.exs)
-|> Path.join()
-|> Path.wildcard()
-|> Enum.map(&Code.eval_file(&1))
+# This file is responsible for configuring your application
+# and its dependencies with the aid of the Mix.Config module.
+#
+# This configuration file is loaded before any dependency and
+# is restricted to this project.
+use Mix.Config
 
-use Mix.Releases.Config,
-    # This sets the default release built by `mix release`
-    default_release: :default,
-    # This sets the default environment used by `mix release`
-    default_environment: Mix.env()
-
-# For a full list of config options for both releases
-# and environments, visit https://hexdocs.pm/distillery/config/distillery.html
+config :tasktrack3, Tasktrack3.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  database: "tasktrack3_repo",
+  username: "user",
+  password: "pass",
+  hostname: "localhost"
 
 
-# You may define one or more environments in this file,
-# an environment's settings will override those of a release
-# when building in that environment, this combination of release
-# and environment configuration is called a profile
+# General application configuration
+config :tasktrack3,
+  ecto_repos: [Tasktrack3.Repo]
 
-get_secret = fn name ->
-  # Secret generation hack by Nat Tuck for CS4550
-  # This function is dedicated to the public domain.
-  base = Path.expand("~/.config/tasktrack3")
-  File.mkdir_p!(base)
-  path = Path.join(base, name)
-  unless File.exists?(path) do
-    secret = Base.encode16(:crypto.strong_rand_bytes(32))
-    File.write!(path, secret)
-  end
-  String.trim(File.read!(path))
-end
+# Configures the endpoint
+config :tasktrack3, Tasktrack3Web.Endpoint,
+  url: [host: "localhost"],
+  secret_key_base: "ec7ahe0xeipah9As0vahrieWaoh4shah3xohW7duoxoh2oomahshieshahjeisha",
+  render_errors: [view: Tasktrack3Web.ErrorView, accepts: ~w(html json)],
+  pubsub: [name: Tasktrack3.PubSub,
+           adapter: Phoenix.PubSub.PG2]
 
-environment :dev do
-  # If you are running Phoenix, you should make sure that
-  # server: true is set and the code reloader is disabled,
-  # even in dev mode.
-  # It is recommended that you build with MIX_ENV=prod and pass
-  # the --env flag to Distillery explicitly if you want to use
-  # dev mode.
-  set dev_mode: true
-  set include_erts: false
-  set cookie: String.to_atom(get_secret.("dev_cookie"))
-end
+# Configures Elixir's Logger
+config :logger, :console,
+  format: "$time $metadata[$level] $message\n",
+  metadata: [:request_id]
 
-environment :prod do
-  set include_erts: true
-  set include_src: false
-  set cookie: String.to_atom(get_secret.("prod_cookie"))
-end
+# Use Jason for JSON parsing in Phoenix and Ecto
+config :phoenix, :json_library, Jason
+config :ecto, :json_library, Jason
 
-# You may define one or more releases in this file.
-# If you have not set a default release, or selected one
-# when running `mix release`, the first release in the file
-# will be used by default
 
-release :tasktrack3 do
-  set version: current_version(:tasktrack3)
-  set applications: [
-    :runtime_tools
-  ]
-end
+# Import environment specific config. This must remain at the bottom
+# of this file so it overrides the configuration defined above.
+import_config "#{Mix.env}.exs"
