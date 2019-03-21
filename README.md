@@ -1,7 +1,5 @@
 # Tasktrack
 
-**TODO: Add description**
-
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
@@ -20,13 +18,8 @@ and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/tasktrack](https://hexdocs.pm/tasktrack).
 
 
-# TODO:
+### Notes
 
-requirements:
-
-
------
-
-fixes/enhancements:
-
-figure out sessions, so that a page reload doesn't logout?htht
+One user is set up by default:
+  username: admin@example.com
+  password: admin

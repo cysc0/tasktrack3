@@ -15,8 +15,7 @@ class Root extends React.Component {
     this.state = {
       login_form: {email: "", password: "", newUser: false},
       signup_form: {email: "", password: "", newUser: true},
-      // TODO: SET SESSION TO NULL AFTER TESTING
-      session: {token: "SFMyNTY.g3QAAAACZAAEZGF0YWECZAAGc2lnbmVkbgYAYlnFoWkB.gk6Bqb0TrqnQeGv45r8bozOXs9u3pk_2Tt008AZJXJM", user_id: 2, user_email: "bob@example.com"},
+      session: null,
       users: this.fetchUsers(),
       tasks: this.fetchTasks()
     };

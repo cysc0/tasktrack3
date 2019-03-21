@@ -14,12 +14,6 @@ alias Tasktrack3.Repo
 alias Tasktrack3.Users.User
 alias Tasktrack3.Tasks.Task
 
-
-pwhash = Argon2.hash_pwd_salt("pass1")
-alice = %User{email: "alice@example.com", admin: true, password_hash: pwhash}
-bob = %User{email: "bob@example.com", admin: false, password_hash: pwhash}
-
-atask = %Task{complete: false, title: "TEST TASK", description: "a test task", duration: 30, user: bob}
-
-Repo.insert!(alice)
-Repo.insert!(atask)
+admin = %User{email: "admin@example.com", admin: true, password_hash: Argon2.hash_pwd_salt("admin")}
+task = %Task{complete: true, title: "A test task", description: "admin, do this task", duration: 45, user: admin}
+Repo.insert!(task)
