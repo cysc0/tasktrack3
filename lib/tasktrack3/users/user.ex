@@ -10,7 +10,6 @@ defmodule Tasktrack3.Users.User do
     field :email, :string
 
     has_many :tasks, Tasktrack3.Tasks.Task
-    belongs_to :manager, Tasktrack3.Users.User
 
     field :password_hash, :string
     field :pw_tries, :integer
@@ -25,7 +24,7 @@ defmodule Tasktrack3.Users.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :admin, :password, :password_confirmation, :manager_id])
+    |> cast(attrs, [:email, :admin, :password, :password_confirmation])
     |> validate_confirmation(:password)
     |> validate_password(:password)
     |> put_pass_hash()

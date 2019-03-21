@@ -12,8 +12,14 @@
 
 alias Tasktrack3.Repo
 alias Tasktrack3.Users.User
+alias Tasktrack3.Tasks.Task
+
 
 pwhash = Argon2.hash_pwd_salt("pass1")
-
-Repo.insert!(%User{email: "alice@example.com", admin: true, password_hash: pwhash})
+alice = %User{email: "alice@example.com", admin: true, password_hash: pwhash}
+Repo.insert!(alice)
 Repo.insert!(%User{email: "bob@example.com", admin: false, password_hash: pwhash})
+
+atask = %Task{complete: false, title: "TEST TASK", description: "a test task", duration: 30, user: alice}
+
+Repo.insert!(atask)

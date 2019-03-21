@@ -6,8 +6,6 @@ defmodule Tasktrack3.Repo.Migrations.CreateUsers do
       add :email, :string
       add :admin, :boolean, default: false, null: false
 
-      add :manager_id, references(:users), null: true
-
       timestamps()
     end
 
