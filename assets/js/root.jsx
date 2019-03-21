@@ -123,6 +123,12 @@ class Root extends React.Component {
         <Route path="/users" exact={true} render={() =>
           <Users users={this.state.users}/>
         } />
+        <Route path="/tasks" exact={true} render={() =>
+          <Tasks tasks={this.state.tasks} uid={null}/>
+        } />
+        <Route path="/mytasks" exact={true} render={() =>
+          <Tasks tasks={this.state.tasks} uid={(this.state.session == null) ? null : this.state.session.user_id}/>
+        } />
       </div>
     </Router>;
   }
@@ -154,7 +160,7 @@ function Header(props) {
 
   return <div className="row">
     <div className="col-4">
-      <h1>Task Track</h1>
+      <Link to={"/"}><h1 id="pagetitle">Task Track</h1></Link>
     </div>
     <div className="col-4">
       <p>
@@ -222,3 +228,38 @@ function User(props) {
   </tr>;
 }
 
+//////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////// TASKS //////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+
+function Tasks(props) {
+  let tasks = _.map(props.tasks, (t) => <Task key={t.id} task={t} />);
+  if (props.uid != null) {
+    // filter tasks to match current users id, for my tasks view
+    tasks = tasks.filter(function(x) {
+      return x.props.task.user_id == props.uid;
+    })
+  };
+  return <div className="row">
+    {tasks}
+  </div>;
+}
+
+function Task(props) {
+  let {task, uid} = props;
+  return <div className="card task-card">
+    <div className="card-header">
+      {task.title}
+    </div>
+    <div className="card-body">
+      <p className="card-text">{task.description}</p>
+    </div>
+      <ul className="list-group list-group-flush">
+        <li className="list-group-item">Time Spent: {task.duration}</li>
+        <li className="list-group-item">Status: {task.complete ? "👍" : "👎"}</li>
+      </ul>
+    <div className="card-footer">
+      Assigned to: {task.user_email}
+    </div>
+  </div>;
+}

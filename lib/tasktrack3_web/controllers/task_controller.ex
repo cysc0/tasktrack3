@@ -4,59 +4,40 @@ defmodule Tasktrack3Web.TaskController do
   alias Tasktrack3.Tasks
   alias Tasktrack3.Tasks.Task
 
+  action_fallback Tasktrack3Web.FallbackController
+
   def index(conn, _params) do
     tasks = Tasks.list_tasks()
-    render(conn, "index.html", tasks: tasks)
-  end
-
-  def new(conn, _params) do
-    changeset = Tasks.change_task(%Task{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "index.json", tasks: tasks)
   end
 
   def create(conn, %{"task" => task_params}) do
-    case Tasks.create_task(task_params) do
-      {:ok, task} ->
-        conn
-        |> put_flash(:info, "Task created successfully")
-        |> redirect(to: Routes.task_path(conn, :show, task))
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+    with {:ok, %Task{} = task} <- Tasks.create_task(task_params) do
+      conn
+      |> put_status(:created)
+      |> put_resp_header("location", Routes.task_path(conn, :show, task))
+      |> render("show.json", task: task)
     end
   end
 
   def show(conn, %{"id" => id}) do
     task = Tasks.get_task!(id)
-    render(conn, "show.html", task: task)
-  end
-
-  def edit(conn, %{"id" => id}) do
-    task = Tasks.get_task!(id)
-    changeset = Tasks.change_task(task)
-    render(conn, "edit.html", task: task, changeset: changeset)
+    render(conn, "show.json", task: task)
   end
 
   def update(conn, %{"id" => id, "task" => task_params}) do
     task = Tasks.get_task!(id)
 
-    case Tasks.update_task(task, task_params) do
-      {:ok, task} ->
-        conn
-        |> put_flash(:info, "Task updated successfully")
-        |> redirect(to: Routes.task_path(conn, :show, task))
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", task: task, changeset: changeset)
+    with {:ok, %Task{} = task} <- Tasks.update_task(task, task_params) do
+      render(conn, "show.json", task: task)
     end
   end
 
   def delete(conn, %{"id" => id}) do
     task = Tasks.get_task!(id)
-    {:ok, _task} = Tasks.delete_task(task)
 
-    conn
-    |> put_flash(:info, "Task deleted successfully")
-    |> redirect(to: Routes.task_path(conn, :index))
+    with {:ok, %Task{}} <- Tasks.delete_task(task) do
+      send_resp(conn, :no_content, "")
+    end
   end
 end

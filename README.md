@@ -23,8 +23,6 @@ be found at [https://hexdocs.pm/tasktrack](https://hexdocs.pm/tasktrack).
 # TODO:
 
 requirements:
-user sign up
-logout
 task creation/edits
   schema:
     owner: user_id (reassignable)
@@ -39,7 +37,4 @@ task creation/edits
 fixes/enhancements:
 
 figure out sessions, so that a page reload doesn't logout?
-REMOVE MANAGER STUFF, currently unused, but we don't need it
-all tasks view, my tasks view
-redo the page structuring and redirecting, for when there's a session or not
-remove dead routes
+figure out the weird page reload breakage
