@@ -20,8 +20,6 @@ defmodule Tasktrack3.MixProject do
   def application do
     [
       mod: {Tasktrack3.Application, []},
-      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-      :phoenix_ecto, :postgrex, :ssl],
       extra_applications: [:logger, :runtime_tools]
     ]
   end
