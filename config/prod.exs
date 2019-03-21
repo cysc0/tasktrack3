@@ -13,7 +13,7 @@ config :tasktrack3, Tasktrack3Web.Endpoint,
   server: true,
   root: ".",
   version: Application.spec(:phoenix_distillery, :vsn),
-  http: [:inet6, port: System.get_env("PORT") || 4796],
+  https: [:inet6, port: System.get_env("PORT") || 4796],
   url: [host: "tasks3.zombo.club", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
