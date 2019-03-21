@@ -13,9 +13,9 @@ config :tasktrack3, Tasktrack3Web.Endpoint,
   server: true,
   root: ".",
   version: Application.spec(:phoenix_distillery, :vsn),
-  https: [:inet6, port: System.get_env("PORT") || 4796],
+  https: [port: 443, otp_app: :tasktrack3],
   http: [:inet6, port: System.get_env("PORT") || 4796],
-  url: [host: "tasks3.zombo.club", port: 80],
+  url: [host: "tasks3.zombo.club"],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
