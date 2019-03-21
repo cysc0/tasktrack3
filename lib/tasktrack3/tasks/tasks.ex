@@ -41,6 +41,11 @@ defmodule Tasktrack3.Tasks do
     |> Repo.preload(:user)
   end
 
+  def get_task(id) do
+    Repo.get(Task, id)
+    |> Repo.preload(:user)
+  end
+
   @doc """
   Creates a task.
 

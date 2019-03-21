@@ -23,18 +23,10 @@ be found at [https://hexdocs.pm/tasktrack](https://hexdocs.pm/tasktrack).
 # TODO:
 
 requirements:
-task creation/edits
-  schema:
-    owner: user_id (reassignable)
-    status: boolean
-    description: string
-    title: string
-    time: int (0..15...)
 
 
 -----
 
 fixes/enhancements:
 
-figure out sessions, so that a page reload doesn't logout?
-figure out the weird page reload breakage
+figure out sessions, so that a page reload doesn't logout?htht
